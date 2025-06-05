@@ -20,6 +20,5 @@ namespace Catalog.Application.Handlers
             var brands = await _brandRepository.GetAllBrands();
             return ProductMapper.Mapper.Map<IList<ProductBrand>, IList<BrandResponse>>(brands.ToList());
         }
-    }
-   
+    }   
 }
