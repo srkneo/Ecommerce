@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Catalog.Application.Queries;
 using Catalog.Application.Responses;
+using Catalog.Core.Entities;
 using Catalog.Core.Repositories;
 using MediatR;
 
@@ -18,7 +19,7 @@ namespace Catalog.Application.Handlers
         public async Task<IList<BrandResponse>> Handle(GetAllBrandsQuery request, CancellationToken cancellationToken)
         {
             var brands = await _brandRepository.GetAllBrands();
-            return _mapper.Map<IList<BrandResponse>>(brands);
+            return _mapper.Map<IList<ProductBrand>, IList<BrandResponse>>(brands.ToList());
         }
     }
    
