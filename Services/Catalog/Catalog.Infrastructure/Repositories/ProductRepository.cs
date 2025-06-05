@@ -30,37 +30,47 @@ namespace Catalog.Infrastructure.Repositories
                 .Find(p => true).ToListAsync();
         }
 
-        Task<IEnumerable<Product>> IProductRepository.GetProductsByBrand(string name)
+        async Task<IEnumerable<Product>> IProductRepository.GetProductsByBrand(string brandName)
         {
-            throw new NotImplementedException();
+            return await _context.Products
+                .Find(p => p.Brands.Name.ToLower() == brandName.ToLower()).ToListAsync();
         }
 
-        Task<IEnumerable<Product>> IProductRepository.GetProductsByName(string name)
+        async Task<IEnumerable<Product>> IProductRepository.GetProductsByName(string name)
         {
-            throw new NotImplementedException();
+            return await _context.Products
+                .Find(p => p.Name.ToLower() == name.ToLower()).ToListAsync();
         }
 
-        Task IProductRepository.CreateProduct(Product product)
+        async Task<Product> IProductRepository.CreateProduct(Product product)
         {
-            throw new NotImplementedException();
+            await _context.Products.InsertOneAsync(product);
+            return product;
         }
 
-        Task IProductRepository.DeleteProduct(string id)
+        async Task<bool> IProductRepository.DeleteProduct(string id)
         {
-            throw new NotImplementedException();
-        }
-        Task IProductRepository.UpdateProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-        Task<IEnumerable<ProductBrand>> IBrandRepository.GetAllBrands()
-        {
-            throw new NotImplementedException();
+            var deletedProduct = await _context.Products
+                .DeleteOneAsync(p => p.Id == id);
+            return deletedProduct.DeletedCount > 0 && deletedProduct.IsAcknowledged;
         }
 
-        Task<IEnumerable<ProductType>> ITypesRepository.GetAllTypes()
+        async Task<bool> IProductRepository.UpdateProduct(Product product)
         {
-            throw new NotImplementedException();
+            var updatedProduct = await _context.Products
+                .ReplaceOneAsync(p => p.Id == product.Id, product);
+            return updatedProduct.IsAcknowledged && updatedProduct.ModifiedCount > 0;
+        }
+        async Task<IEnumerable<ProductBrand>> IBrandRepository.GetAllBrands()
+        {
+            return await _context.Brands
+                .Find(b => true).ToListAsync();
+        }
+
+        async Task<IEnumerable<ProductType>> ITypesRepository.GetAllTypes()
+        {
+            return await _context.Types
+                .Find(t => true).ToListAsync();
         }
 
     }
