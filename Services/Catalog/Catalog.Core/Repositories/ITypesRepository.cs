@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Catalog.Core.Repositories
 {
-    public interface ITypesRepository_
+    public interface ITypesRepository
     {
         Task<IEnumerable<ProductType>> GetAllTypes();
        

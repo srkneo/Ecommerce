@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Catalog.Core.Repositories
 {
-    internal interface IBrandRepository
+    public interface IBrandRepository
     {
         Task<IEnumerable<ProductBrand>> GetAllBrands();
         
