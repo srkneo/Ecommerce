@@ -30,7 +30,7 @@ namespace Catalog.API.Controllers
         [HttpGet]
         [Route("[action]/{productName}", Name = "GetProductByProductName")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ProductResponse>> GetProductByProductName(string productName)
+        public async Task<ActionResult<IList<ProductResponse>>> GetProductByProductName(string productName)
         {
             var result = await _mediator.Send(new GetProductByNameQuery(productName));
             return Ok(result);
@@ -39,7 +39,7 @@ namespace Catalog.API.Controllers
         [HttpGet]
         [Route("GetAllProducts")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ProductResponse>> GetAllProducts()
+        public async Task<ActionResult<IList<ProductResponse>>> GetAllProducts()
         {
             var result = await _mediator.Send(new GetAllProductQuery());
             return Ok(result);
@@ -48,7 +48,7 @@ namespace Catalog.API.Controllers
         [HttpGet]
         [Route("GetAllBrands")]
         [ProducesResponseType(typeof(IList<BrandResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<BrandResponse>> GetAllBrands()
+        public async Task<ActionResult<IList<BrandResponse>>> GetAllBrands()
         {
             var result = await _mediator.Send(new GetAllBrandsQuery());
             return Ok(result);
@@ -57,16 +57,16 @@ namespace Catalog.API.Controllers
         [HttpGet]
         [Route("GetAllTypes")]
         [ProducesResponseType(typeof(IList<TypesResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<TypesResponse>> GetAllTypes()
+        public async Task<ActionResult<IList<TypesResponse>>> GetAllTypes()
         {
             var result = await _mediator.Send(new GetAllTypesQuery());
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("[action]/{brand}", Name = "GetProductByBrand")]
+        [Route("[action]/{brand}", Name = "GetProductsByBrand")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ProductResponse>> GetProductByBrand(string brand)
+        public async Task<ActionResult<IList<ProductResponse>>> GetProductsByBrand(string brand)
         {
             var result = await _mediator.Send(new GetProductByBrandQuery(brand));
             return Ok(result);
