@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Catalog.API.Controllers
 {
     [ApiVersion("1")]
-    [Route("api/v{version: ApiVersion}/[controller]")]
+    [Route("api/v{version:ApiVersion}/[controller]")]
     [ApiController]
     public class ApiController : ControllerBase
     {
