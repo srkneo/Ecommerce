@@ -31,12 +31,17 @@ builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Microsoft.OpenApi.M
 //Register AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
-//Rgister Mediatr
-var assemblies = new Assembly[] {
-    Assembly.GetExecutingAssembly(),
-    typeof(GetAllBrandsHandlers).Assembly
+var assemblies = new Assembly[]
+{
+    Assembly.GetExecutingAssembly(),                     // Usually the API project
+    typeof(GetAllBrandsHandlers).Assembly,               // Catalog.Application
 };
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblies(assemblies);
+});
+
 
 //Register Application Services
 builder.Services.AddScoped<ICatalogContext, CatalogContext>();

@@ -9,12 +9,12 @@ namespace Catalog.Infrastructure.Data
         public static void SeedData(IMongoCollection<Product> productCollection)
         {
             bool checkProduct = productCollection.Find(p => true).Any();
-            //string path = Path.Combine(Directory.GetCurrentDirectory(), "Data", "SeedData", "products.json");
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "Data", "SeedData", "products.json");
 
             if (!checkProduct)
             {
-                //var productsData = File.ReadAllText(path);
-                var productsData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/products.json");
+                var productsData = File.ReadAllText(path);
+                //var productsData = File.ReadAllText("../Catalog.Infrastructure/Data/SeedData/products.json");
                 var products = JsonSerializer.Deserialize<List<Product>>(productsData);
                 if (products != null && products.Any())
                 {
