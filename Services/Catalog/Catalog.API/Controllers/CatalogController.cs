@@ -74,10 +74,10 @@ namespace Catalog.API.Controllers
 
         [HttpPost]
         [Route("CreateProduct")]
-        [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.Created)]
-        public async Task<ActionResult<ProductResponse>> CreateProduct([FromBody] CreateProductCommand command)
+        [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ProductResponse>> CreateProduct([FromBody] CreateProductCommand productCommand)
         {
-            var result = await _mediator.Send<ProductResponse>(command);
+            var result = await _mediator.Send(productCommand);
             return Ok(result);
         }
 
