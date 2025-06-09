@@ -53,34 +53,6 @@ namespace Catalog.Infrastructure.Repositories
         }
         
 
-        private async Task<IReadOnlyList<Product>> DataFilter(CatalogSpecParams catalogSpecParams,FilterDefinition<Product> filter)
-        {
-            var sortBuilder = Builders<Product>.Sort.Ascending("Name");
-
-            if (!String.IsNullOrEmpty(catalogSpecParams.Sort))
-            {
-                
-                switch (catalogSpecParams.Sort)
-                {
-                    case "priceAsc":
-                        sortBuilder = Builders<Product>.Sort.Ascending(p => p.Price);
-                        break;
-                    case "priceDesc":
-                        sortBuilder = Builders<Product>.Sort.Descending(p => p.Price);
-                        break;
-                    default:
-                        sortBuilder = Builders<Product>.Sort.Ascending(p => p.Name);
-                        break;
-                }
-            }
-
-            return await _context.Products
-                .Find(filter)
-                .Sort(sortBuilder)
-                .Skip(catalogSpecParams.PageSize * (catalogSpecParams.PageIndex - 1))
-                .Limit(catalogSpecParams.PageSize)
-                .ToListAsync();
-        }
         public async Task<IEnumerable<Product>> GetProductsByBrand(string brandName)
         {
             return await _context.Products
@@ -122,6 +94,36 @@ namespace Catalog.Infrastructure.Repositories
         {
             return await _context.Types
                 .Find(t => true).ToListAsync();
+        }
+
+
+        private async Task<IReadOnlyList<Product>> DataFilter(CatalogSpecParams catalogSpecParams, FilterDefinition<Product> filter)
+        {
+            var sortBuilder = Builders<Product>.Sort.Ascending("Name");
+
+            if (!String.IsNullOrEmpty(catalogSpecParams.Sort))
+            {
+
+                switch (catalogSpecParams.Sort)
+                {
+                    case "priceAsc":
+                        sortBuilder = Builders<Product>.Sort.Ascending(p => p.Price);
+                        break;
+                    case "priceDesc":
+                        sortBuilder = Builders<Product>.Sort.Descending(p => p.Price);
+                        break;
+                    default:
+                        sortBuilder = Builders<Product>.Sort.Ascending(p => p.Name);
+                        break;
+                }
+            }
+
+            return await _context.Products
+                .Find(filter)
+                .Sort(sortBuilder)
+                .Skip(catalogSpecParams.PageSize * (catalogSpecParams.PageIndex - 1))
+                .Limit(catalogSpecParams.PageSize)
+                .ToListAsync();
         }
 
     }
