@@ -39,7 +39,7 @@ namespace Catalog.API.Controllers
 
         [HttpGet]
         [Route("GetAllProducts")]
-        [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Pagination<ProductResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<ProductResponse>>> GetAllProducts([FromQuery] CatalogSpecParams catalogSpecParams)
         {
 
@@ -47,7 +47,6 @@ namespace Catalog.API.Controllers
             var result = await _mediator.Send(query);
 
             return Ok(result);
-
         }
 
         [HttpGet]
