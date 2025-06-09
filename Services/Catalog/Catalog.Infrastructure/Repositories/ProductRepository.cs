@@ -2,6 +2,7 @@
 
 using Catalog.Core.Entities;
 using Catalog.Core.Repositories;
+using Catalog.Core.Specs;
 using Catalog.Infrastructure.Data;
 using MongoDB.Driver;
 
@@ -18,56 +19,80 @@ namespace Catalog.Infrastructure.Repositories
         }
 
 
-        async Task<Product> IProductRepository.GetProduct(string id)
+        public async Task<Product> GetProduct(string id)
         {
             return await _context.Products
                 .Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        async Task<IEnumerable<Product>> IProductRepository.GetProducts()
+        public async Task<Pagination<Product>> GetProducts(CatalogSpecParams catalogSpecParams)
         {
-            return await _context.Products
-                .Find(p => true).ToListAsync();
+            var biulder = Builders<Product>.Filter;
+            var filter = biulder.Empty;
+
+            if (!string.IsNullOrEmpty(catalogSpecParams.Search))
+            {
+                filter = biulder.Where(p => p.Name.ToLower().Contains(catalogSpecParams.Search.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(catalogSpecParams.BrandId))
+            {
+                filter &= biulder.Eq(p => p.Brands.Id, catalogSpecParams.BrandId);
+            }
+            if (!string.IsNullOrEmpty(catalogSpecParams.TypeId))
+            {
+                filter &= biulder.Eq(p => p.Types.Id, catalogSpecParams.TypeId);
+            }
+
+            var totalItems = await _context.Products.CountDocumentsAsync(filter);
+            var products = await _context.Products
+                .Find(filter)
+                .Skip(catalogSpecParams.PageSize * (catalogSpecParams.PageIndex - 1))
+                .Limit(catalogSpecParams.PageSize)
+                .ToListAsync();
+            
+            return new Pagination<Product>(  catalogSpecParams.PageIndex,
+                (int)totalItems, 
+                catalogSpecParams.PageSize, products);
         }
 
-        async Task<IEnumerable<Product>> IProductRepository.GetProductsByBrand(string brandName)
+        public async Task<IEnumerable<Product>> GetProductsByBrand(string brandName)
         {
             return await _context.Products
                 .Find(p => p.Brands.Name.ToLower() == brandName.ToLower()).ToListAsync();
         }
 
-        async Task<IEnumerable<Product>> IProductRepository.GetProductsByName(string name)
+        public async Task<IEnumerable<Product>> GetProductsByName(string name)
         {
             return await _context.Products
                 .Find(p => p.Name.ToLower() == name.ToLower()).ToListAsync();
         }
 
-        async Task<Product> IProductRepository.CreateProduct(Product product)
+        public async Task<Product> CreateProduct(Product product)
         {
             await _context.Products.InsertOneAsync(product);
             return product;
         }
 
-        async Task<bool> IProductRepository.DeleteProduct(string id)
+        public async Task<bool> DeleteProduct(string id)
         {
             var deletedProduct = await _context.Products
                 .DeleteOneAsync(p => p.Id == id);
             return deletedProduct.DeletedCount > 0 && deletedProduct.IsAcknowledged;
         }
 
-        async Task<bool> IProductRepository.UpdateProduct(Product product)
+        public async Task<bool> UpdateProduct(Product product)
         {
             var updatedProduct = await _context.Products
                 .ReplaceOneAsync(p => p.Id == product.Id, product);
             return updatedProduct.IsAcknowledged && updatedProduct.ModifiedCount > 0;
         }
-        async Task<IEnumerable<ProductBrand>> IBrandRepository.GetAllBrands()
+        public async Task<IEnumerable<ProductBrand>> GetAllBrands()
         {
             return await _context.Brands
                 .Find(b => true).ToListAsync();
         }
 
-        async Task<IEnumerable<ProductType>> ITypesRepository.GetAllTypes()
+        public async Task<IEnumerable<ProductType>> GetAllTypes()
         {
             return await _context.Types
                 .Find(t => true).ToListAsync();

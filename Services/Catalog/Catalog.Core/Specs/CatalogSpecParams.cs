@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Catalog.Infrastructure.Specs
+namespace Catalog.Core.Specs
 {
     public class CatalogSpecParams
     {
@@ -17,5 +17,6 @@ namespace Catalog.Infrastructure.Specs
         public string? TypeId { get; set; }
         public string? Sort { get; set; }
         public string? Search { get; set; }
+        public int PageIndex { get; set; } = 1;
     }
 }
