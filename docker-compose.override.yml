@@ -38,3 +38,13 @@ services:
     ports:
       - "8001:8080"
 
+   Portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
