@@ -1,6 +1,4 @@
-﻿
-
-using Catalog.Core.Entities;
+﻿using Catalog.Core.Entities;
 using Catalog.Core.Repositories;
 using Catalog.Core.Specs;
 using Catalog.Infrastructure.Data;
