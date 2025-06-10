@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "http": {
+    "Basket.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
