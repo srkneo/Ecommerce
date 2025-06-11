@@ -27,6 +27,7 @@ builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Microsoft.OpenApi.M
 //Register AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+//Register MediatR
 var assemblies = new Assembly[]
 {
     Assembly.GetExecutingAssembly(),                     // Usually the API project
