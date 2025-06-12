@@ -52,6 +52,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings__ConnectionString=basketdb:6379"      
+      - "GrpcSettings__DiscountUrl=http://discount.api"
     depends_on:
       - basketdb
     ports:
@@ -86,7 +87,8 @@ services:
       - "DatabaseSettings__ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=Password@1;"
 #      - ASPNETCORE_URLS=http://*:9002          
     depends_on:
-      - discountdb
+      discountdb:
+        condition: service_healthy
     ports:
-      - "9002:80"
+      - "8002:8080"
     
