@@ -1,5 +1,5 @@
-using Basket.Application.Handlers;
 using Discount.API.Services;
+using Discount.Application.Handlers;
 using Discount.Core.Repositories;
 using Discount.Infrastructure.Extensions;
 using Discount.Infrastructure.Repositories;
@@ -16,7 +16,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 var assemblies = new Assembly[]
 {
     Assembly.GetExecutingAssembly(),                     // Usually the API project
-    typeof(CreateShoppingCartCommandHandler).Assembly,               // Catalog.Application
+    typeof(CreateDiscountCommandHandler).Assembly,               // Catalog.Application
 };
 
 builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssemblies(assemblies);});
@@ -34,8 +34,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
-
-app.UseAuthorization();
 
 app.UseRouting();
 
