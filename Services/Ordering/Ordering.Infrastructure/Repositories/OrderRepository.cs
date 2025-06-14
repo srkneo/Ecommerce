@@ -18,6 +18,5 @@ namespace Ordering.Infrastructure.Repositories
                 .Where(o => o.UserName == userName)
                 .ToListAsync();
         }
-        
     }
 }
