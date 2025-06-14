@@ -22,7 +22,6 @@ namespace Ordering.Application.Handlers
             var order = await _orderRepository.GetOrdersByUserName(request.UserName);
 
             return  _mapper.Map<List<OrderResponse>>(order);
-
         }
     }
 }
