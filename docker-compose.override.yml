@@ -91,7 +91,9 @@ services:
      depends_on:
       - orderdb      
      ports:
-      - "8003:8080"   
+      - "8003:8080" 
+     command: >
+      /bin/sh -c "dotnet ef database update -p ../Ordering.Infrastructure -s ../Ordering.API && dotnet Ordering.API.dll"
 
    Portainer:
     container_name: portainer
