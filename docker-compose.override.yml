@@ -31,6 +31,15 @@ services:
             timeout: 5s
             retries: 5
 
+   orderdb:
+        container_name: orderdb        
+        restart: always
+        environment:
+          ACCEPT_EULA: "Y"
+          SA_PASSWORD: "Rahul1234567"
+        ports:
+          - "1433:1433"        
+
 
    catalog.api:
     container_name: catalog.api
@@ -57,6 +66,28 @@ services:
       - basketdb
     ports:
       - "8001:8080"
+   discount.api:
+    container_name: discount.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings__ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=Password@1;"
+#      - ASPNETCORE_URLS=http://*:9002          
+    depends_on:
+      discountdb:
+        condition: service_healthy
+    ports:
+      - "8002:8080"
+
+   ordering.api:
+     container_name: ordering.api
+     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+     depends_on:
+      - orderdb      
+     ports:
+      - "8003:8080"      
 
    Portainer:
     container_name: portainer
@@ -80,15 +111,5 @@ services:
       - pgadmin_data:/root/.pgadmin
    
     
-   discount.api:
-    container_name: discount.api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings__ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=Password@1;"
-#      - ASPNETCORE_URLS=http://*:9002          
-    depends_on:
-      discountdb:
-        condition: service_healthy
-    ports:
-      - "8002:8080"
+
     
