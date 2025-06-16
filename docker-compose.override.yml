@@ -38,8 +38,13 @@ services:
           ACCEPT_EULA: "Y"
           SA_PASSWORD: "Rahul1234567"
         ports:
-          - "1433:1433"        
-
+          - "1433:1433"      
+        healthcheck:
+         test: ["CMD", "bash", "-c", "</dev/tcp/localhost/1433"]
+         interval: 10s
+         timeout: 10s
+         retries: 3
+  
 
    catalog.api:
     container_name: catalog.api
@@ -82,12 +87,11 @@ services:
      container_name: ordering.api
      environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+      - "ConnectionStrings__OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=Rahul1234567;TrustServerCertificate=true;"         
      depends_on:
       - orderdb      
      ports:
-      - "8003:8080"      
+      - "8003:8080"   
 
    Portainer:
     container_name: portainer

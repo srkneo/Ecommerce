@@ -5,7 +5,7 @@ using Ordering.Application.Queries;
 using Ordering.Application.Responses;
 using System.Net;
 
-namespace Catalog.API.Controllers
+namespace Ordering.API.Controllers
 {
     public class OrderController : ApiController
     {

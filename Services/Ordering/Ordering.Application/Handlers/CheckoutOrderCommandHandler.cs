@@ -13,10 +13,10 @@ namespace Ordering.Application.Handlers
 
         private readonly IOrderRepository _orderedRepository;
         private readonly IMapper _mapper;
-        private readonly ILogger _logger;
+        private readonly ILogger<CheckoutOrderCommandHandler> _logger;
 
 
-        public CheckoutOrderCommandHandler(IOrderRepository orderedRepository, IMapper mapper, ILogger logger)
+        public CheckoutOrderCommandHandler(IOrderRepository orderedRepository, IMapper mapper, ILogger<CheckoutOrderCommandHandler> logger)
         {
 
             _orderedRepository = orderedRepository;
