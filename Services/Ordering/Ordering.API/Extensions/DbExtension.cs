@@ -38,8 +38,6 @@ namespace Ordering.API.Extensions
                 {
                     logger.LogError(ex, $"An error occurred while migrating the database {typeof(TContext).Name}");
                 }
-
-                
             }
 
         }
