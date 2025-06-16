@@ -3,6 +3,11 @@ using MediatR;
 
 namespace Ordering.Application.Behaviour
 {
+    // / <summary>
+    /// Validation behaviour for MediatR requests. <summary>
+    /// this will run all fluent validation validators against the request
+    /// </summary>
+
     public class ValidationBehaviour<Treqeust, Tresponse> : IPipelineBehavior<Treqeust, Tresponse>
     where Treqeust : IRequest<Tresponse>
     {
