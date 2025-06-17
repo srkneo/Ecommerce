@@ -11,10 +11,10 @@
             CreationDate = DateTime.UtcNow;
         }
 
-        public BaseIntegrationEvent(Guid corelationId,DateTime creationData)
+        public BaseIntegrationEvent(Guid correlationId,DateTime creationDate)
         {
-            CorrelationId = corelationId.ToString();
-            CreationDate = creationData;
+            CorrelationId = correlationId.ToString();
+            CreationDate = creationDate;
         }
     }
 }
