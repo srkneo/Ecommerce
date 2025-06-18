@@ -12,10 +12,12 @@ namespace Catalog.API.Controllers
     public class CatalogController : ApiController
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<CatalogController> _logger;
 
-        public CatalogController(IMediator mediator)
+        public CatalogController(IMediator mediator,ILogger<CatalogController> logger)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -34,6 +36,12 @@ namespace Catalog.API.Controllers
         public async Task<ActionResult<IList<ProductResponse>>> GetProductByProductName(string productName)
         {
             var result = await _mediator.Send(new GetProductByNameQuery(productName));
+            if (result == null || !result.Any())
+            {
+                _logger.LogWarning("No products found with the name: {ProductName}", productName);
+                return NotFound($"No products found with the name: {productName}");
+            }
+            _logger.LogInformation("Products found with the name: {ProductName}", productName);
             return Ok(result);
         }
 
