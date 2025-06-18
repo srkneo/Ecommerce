@@ -37,6 +37,8 @@ services:
         environment:
           ACCEPT_EULA: "Y"
           SA_PASSWORD: "Rahul1234567"
+        volumes:
+          - orderdb_data:/var/opt/mssql
         ports:
           - "1433:1433"      
         healthcheck:
@@ -74,6 +76,7 @@ services:
       - "CacheSettings__ConnectionString=basketdb:6379"      
       - "GrpcSettings__DiscountUrl=http://discount.api:8080"
       - "EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672"
+      - "ElasticConfiguration__Uri=http://elasticsearch:9200"
     depends_on:
       - basketdb
       - rabbitmq
@@ -85,6 +88,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "DatabaseSettings__ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=Password@1;"
+      - "ElasticConfiguration__Uri=http://elasticsearch:9200"
 #      - ASPNETCORE_URLS=http://*:9002          
     depends_on:
       discountdb:
@@ -98,6 +102,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings__OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=Rahul1234567;TrustServerCertificate=true;"
       - "EventBusSettings__HostAddress=amqp://guest:guest@rabbitmq:5672" 
+      - "ElasticConfiguration__Uri=http://elasticsearch:9200"
      depends_on:
       - orderdb      
       - rabbitmq
@@ -134,6 +139,11 @@ services:
       - xpack.watcher.enabled=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      
     ports:
       - "9200:9200"
     volumes:

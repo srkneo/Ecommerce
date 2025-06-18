@@ -41,7 +41,7 @@ namespace Common.Logging
                     {
                         AutoRegisterTemplate = true,
                         AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv8,
-                        IndexFormat = "ECommarce-Logs-{0:yyyy-MM.dd}",
+                        IndexFormat = "ecommarce-Logs-{0:yyyy-MM.dd}",
                         MinimumLogEventLevel = LogEventLevel.Debug,
                     });
                 }
