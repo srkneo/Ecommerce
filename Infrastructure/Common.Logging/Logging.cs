@@ -6,7 +6,7 @@ namespace Common.Logging
 {
     public static class Logging
     {
-        public static Action<HostBuilderContext, LoggerConfiguration> cfg => 
+        public static Action<HostBuilderContext, LoggerConfiguration> ConfigureLogger => 
             (context, loggerConfiguration) =>
             {
                 var environment = context.HostingEnvironment;
