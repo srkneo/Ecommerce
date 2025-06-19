@@ -63,7 +63,7 @@ builder.Services.AddSwaggerGen(c => {
 
         return versions?.Any(v => $"v{v.ToString()}" == version) ?? false;
 
-    });   
+    });
 });
 
 //Register AutoMapper
