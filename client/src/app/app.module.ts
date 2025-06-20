@@ -10,4 +10,4 @@ import { AppRoutingModule } from './app-routing.module';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}  // ✅ THIS is what makes it a module!
+export class AppModule {}  
