@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+
+
 //ocelot configuration
 
 builder.Host.ConfigureAppConfiguration((context, config) =>
