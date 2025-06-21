@@ -5,6 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//ocelot configuration
+
+builder.Host.ConfigureAppConfiguration((context, config) =>
+{
+    config.AddJsonFile($"ocelot.{context.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -32,4 +39,4 @@ app.UseEndpoints(endpoints =>
     });
 });
 await app.UseOcelot();
-app.Run();
+await app.RunAsync();
