@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // Example of making an HTTP request
-    this.http.get('http://localhost:8000/api/v1/Catalog/GetProductByProductName/Adidas%20FIFA%20World%20Cup%202018%20OMB%20Football').subscribe({
+    this.http.get('http://localhost:8010/Catalog/GetProductsByBrand/Adidas').subscribe({
 
       next: response => console.log(response),
       error: error => console.error('There was an error!', error),

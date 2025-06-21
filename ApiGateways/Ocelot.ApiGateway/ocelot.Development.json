@@ -63,7 +63,7 @@
       "UpstreamHttpMethod": [ "GET", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/api/v1/Catalog/GetProductsByBrandName/{brand}",
+      "DownstreamPathTemplate": "/api/v1/Catalog/GetProductsByBrand/{brand}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -71,7 +71,7 @@
           "Port": "8000"
         }
       ],
-      "UpstreamPathTemplate": "/Catalog/GetProductsByBrandName/{brand}",
+      "UpstreamPathTemplate": "/Catalog/GetProductsByBrand/{brand}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     //Basket API

@@ -24,7 +24,7 @@ namespace Catalog.API.Controllers
         [Route("[action]/{id}", Name = "GetProductById")]
         [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<ProductResponse>> GetPorductById(string id)
+        public async Task<ActionResult<ProductResponse>> GetProductById(string id)
         {
             var product = await _mediator.Send(new GetProductByIdQuery(id));
             return Ok(product);
