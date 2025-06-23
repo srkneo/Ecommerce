@@ -36,7 +36,7 @@ export class StoreComponent implements OnInit {
   getBrands(){
       this.storeService.getBrands().subscribe({
 
-        next: response => this.brands = response // Assign the fetched products to the component's products property
+        next: response => this.brands = [{id:'',name:'All'},...response] // Assign the fetched products to the component's products property
         , error: error => console.error('Error fetching products:', error) // Handle any errors that occur during the fetch
         , complete: () => console.log('Product fetch complete') // Optional: Log when the
         
@@ -46,7 +46,7 @@ export class StoreComponent implements OnInit {
   getTypes(){
       this.storeService.getTypes().subscribe({
 
-        next: response => this.types = response // Assign the fetched products to the component's products property
+        next: response => this.types = [{id:'',name:'All'},...response]  // Assign the fetched products to the component's products property
         , error: error => console.error('Error fetching products:', error) // Handle any errors that occur during the fetch
         , complete: () => console.log('Product fetch complete') // Optional: Log when the
         
