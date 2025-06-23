@@ -15,6 +15,7 @@ export class StoreComponent implements OnInit {
   brands: IBrand[] = [];
   types: IType[] = []; 
   storeParams=  new StoreParams();
+  totalCount: number = 0; // Initialize totalCount to zero
 
   sortOptions = [
     { name: 'Alphabetical', value: 'name' },
@@ -34,7 +35,13 @@ export class StoreComponent implements OnInit {
   getProducts(){
       this.storeService.getProducts(this.storeParams).subscribe({
 
-        next: response => this.products = response.data // Assign the fetched products to the component's products property
+        next: response =>{
+          this.products = response.data
+          this.totalCount = response.count; 
+          this.storeParams.pageNumber = response.pageIndex; // Update the current page number in storeParams
+          this.storeParams.pageSize = response.pageSize; // Update the page size in storeParams
+
+        }  // Assign the fetched products to the component's products property
         , error: error => console.error('Error fetching products:', error) // Handle any errors that occur during the fetch
         , complete: () => console.log('Product fetch complete') // Optional: Log when the
         
@@ -72,6 +79,14 @@ export class StoreComponent implements OnInit {
   onSortSelected(sort: string) {
     this.storeParams.sort = sort;
     this.getProducts();
+  }
+
+  onPageChanged(event: any) {
+    if (this.storeParams.pageNumber !== event.pageNumber) {
+      this.storeParams.pageNumber = event.page;
+
+      this.getProducts();
+    }
   }
 
 }
