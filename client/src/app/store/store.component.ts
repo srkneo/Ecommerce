@@ -3,6 +3,7 @@ import { StoreService } from './store.service';
 import { IProduct } from '../shared/models/product';
 import { IBrand } from '../shared/models/brand';
 import { IType } from '../shared/models/type';
+import { StoreParams } from '../shared/models/storeParams';
 
 @Component({
   selector: 'app-store',
@@ -13,6 +14,7 @@ export class StoreComponent implements OnInit {
   products: IProduct[] = []; 
   brands: IBrand[] = [];
   types: IType[] = []; 
+  storeParams=  new StoreParams();
   constructor(private storeService:StoreService) { // Replace 'any' with the actual type of your store service
     // Initialization logic can go here
   }
@@ -23,7 +25,7 @@ export class StoreComponent implements OnInit {
   }
 
   getProducts(){
-      this.storeService.getProducts().subscribe({
+      this.storeService.getProducts(this.storeParams).subscribe({
 
         next: response => this.products = response.data // Assign the fetched products to the component's products property
         , error: error => console.error('Error fetching products:', error) // Handle any errors that occur during the fetch

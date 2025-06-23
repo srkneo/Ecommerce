@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IPagination } from '../shared/models/pagination';
 import { IProduct } from '../shared/models/product';
 import { IBrand } from '../shared/models/brand';
 import { IType } from '../shared/models/type';
+import { StoreParams } from '../shared/models/storeParams';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,16 @@ export class StoreService {
   constructor(private http:HttpClient) {}
   baseUrl = 'http://localhost:8010/';
 
-  getProducts() {
-    return this.http.get<IPagination<IProduct[]>>(this.baseUrl + 'Catalog/GetAllProducts');    
+  getProducts(storeParms:StoreParams) {
+    let params = new HttpParams();
+    if (storeParms.brandId) {
+      params = params.append('brandId', storeParms.brandId);
+    }
+    if (storeParms.typeId) {
+      params = params.append('typeId', storeParms.typeId);
+    }
+    
+    return this.http.get<IPagination<IProduct[]>>(this.baseUrl + 'Catalog/GetAllProducts',{params});    
   }
 
   getBrands(){
