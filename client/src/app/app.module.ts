@@ -6,13 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'; // Importing BrowserAnimationsModule is optional, depending on your needs
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
+import { StoreModule } from './store/store.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, 
     AppRoutingModule, 
     BrowserAnimationsModule,
-    HttpClientModule,CoreModule],
+    HttpClientModule,CoreModule,StoreModule],
   providers: [],
   bootstrap: [AppComponent]
 })
