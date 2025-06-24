@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, viewChild } from '@angular/core';
 import { StoreService } from './store.service';
 import { IProduct } from '../shared/models/product';
 import { IBrand } from '../shared/models/brand';
@@ -11,6 +11,7 @@ import { StoreParams } from '../shared/models/storeParams';
   styleUrl: './store.component.scss'
 })
 export class StoreComponent implements OnInit {
+  @ViewChild('search') searchTerm?: ElementRef; // Assuming you have a search input in your template
   products: IProduct[] = []; 
   brands: IBrand[] = [];
   types: IType[] = []; 
@@ -89,4 +90,17 @@ export class StoreComponent implements OnInit {
     }
   }
 
+  onSearch() {
+    this.storeParams.search = this.searchTerm?.nativeElement.value; // Get the search term from the input element
+    this.storeParams.pageNumber = 1; // Reset to the first page when searching
+    this.getProducts(); // Fetch products based on the search term
+  }
+
+  onReset() {
+    if (this.searchTerm) {
+      this.searchTerm.nativeElement.value = ''; // Clear the search input
+    }
+    this.storeParams = new StoreParams(); // Reset store parameters
+    this.getProducts(); // Fetch products with reset parameters
+  }
 }
