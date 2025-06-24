@@ -14,6 +14,9 @@ export class StoreService {
   constructor(private http:HttpClient) {}
   baseUrl = 'http://localhost:8010/';
 
+  getProductById(id: string) {
+    return this.http.get<IProduct>(this.baseUrl + 'Catalog/GetProductById/' + id);  
+  }
   getProducts(storeParms:StoreParams) {
     let params = new HttpParams();
     if (storeParms.brandId) {
