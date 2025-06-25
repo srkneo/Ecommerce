@@ -2,14 +2,27 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ServerErrorComponent } from './server-error/server-error.component';
+import { UnAuthenticatedComponent } from './un-authenticated/un-authenticated.component';
 
 
 
 @NgModule({
-  declarations: [NavbarComponent],
+  declarations: [NavbarComponent,
+    NotFoundComponent,
+    ServerErrorComponent,
+    UnAuthenticatedComponent],
   imports: [
-    CommonModule,RouterModule
+    CommonModule,
+    RouterModule
   ],
-  exports: [NavbarComponent,RouterModule] // Export NavbarComponent so it can be used in other modules
+  exports: [
+    NavbarComponent,
+    RouterModule,
+    NotFoundComponent,
+    ServerErrorComponent,
+    UnAuthenticatedComponent
+  ] // Export NavbarComponent so it can be used in other modules
 })
 export class CoreModule { }
