@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../../shared/models/product';
 import { StoreService } from '../store.service';
 import { ActivatedRoute } from '@angular/router';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
   selector: 'app-product-details',  
@@ -11,7 +12,11 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductDetailsComponent implements OnInit {
   product?: IProduct;
 
-  constructor(private storeService: StoreService, private route: ActivatedRoute) {}
+  constructor(
+    private storeService: StoreService, 
+    private route: ActivatedRoute,
+    private bcService: BreadcrumbService
+  ) {}
 
   ngOnInit():void {    
       this.loadProductDetails();    
@@ -25,6 +30,7 @@ export class ProductDetailsComponent implements OnInit {
 
       next: (product: IProduct) => {
         this.product = product;
+        this.bcService.set('@productDetails', product.name); // Set breadcrumb with product name
       },
       error: (error) => {
         console.error('Error fetching product details:', error);

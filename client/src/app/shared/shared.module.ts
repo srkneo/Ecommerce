@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination'; // Ensure you have ngx-bootstrap installed
+import { CarouselModule } from 'ngx-bootstrap/carousel'; // Assuming you have a CarouselModule for carousels
 
 
 
@@ -8,11 +9,13 @@ import { PaginationModule } from 'ngx-bootstrap/pagination'; // Ensure you have 
   declarations: [],
   imports: [
     CommonModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    CarouselModule // Assuming you have a CarouselModule for carousels
   ]
   , exports: [
     CommonModule,
-    PaginationModule
+    PaginationModule,
+    CarouselModule // Exporting the CarouselModule so it can be used in other modules
   ]
 })
 export class SharedModule { }

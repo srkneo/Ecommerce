@@ -7,11 +7,11 @@ import { UnAuthenticatedComponent } from './core/un-authenticated/un-authenticat
 
 // Define your app routes here
 const routes: Routes = [
-   { path: '', component: HomeComponent },
+   { path: '', component: HomeComponent ,data:{breadcrumb:'Home'} }, // Home route with breadcrumb data
    {path: 'not-found', component: NotFoundComponent }, 
    {path: 'server-error', component: ServerErrorComponent },
    {path: 'un-authenticated', component: UnAuthenticatedComponent },
-   { path: 'store', loadChildren: () => import('./store/store.module').then(m => m.StoreModule) }, // Lazy load the store module
+   { path: 'store', loadChildren: () => import('./store/store.module').then(m => m.StoreModule),data:{breadcrumb:'Store'} }, // Lazy load the store module
    { path: '**', redirectTo: '',pathMatch:'full' } // Redirect any unknown paths to home ,
 ];
 
