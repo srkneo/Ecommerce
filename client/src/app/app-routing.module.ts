@@ -12,6 +12,7 @@ const routes: Routes = [
    {path: 'server-error', component: ServerErrorComponent },
    {path: 'un-authenticated', component: UnAuthenticatedComponent },
    { path: 'store', loadChildren: () => import('./store/store.module').then(m => m.StoreModule),data:{breadcrumb:'Store'} }, // Lazy load the store module
+   { path: 'basket', loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule), data: { breadcrumb: 'Basket' } }, // Lazy load the basket module
    { path: '**', redirectTo: '',pathMatch:'full' } // Redirect any unknown paths to home ,
 ];
 
