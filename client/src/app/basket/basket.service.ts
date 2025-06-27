@@ -24,9 +24,16 @@ export class BasketService {
         this.basketSource.next(basket);
         this.calculateBasketTotal();
       },
-      error: (error) => {
+       error: (error) => {
+      if (error.status === 404) {
+        // Handle not found basket — treat as empty
+        this.basketSource.next(null);
+        this.basketTotal.next(null);
+        localStorage.removeItem('basket_username');
+      } else {
         console.error('Error fetching basket:', error);
       }
+    }
     });
   }
 
@@ -51,6 +58,56 @@ export class BasketService {
     basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
     this.setbasket(basket);
   }
+
+  increamentItemQuantity(item:IBasketItem){
+    const basket = this.getcurrentBasket();
+    if(!basket) return;
+
+    const foundItemIndex = basket.items.findIndex((x) => x.productId === item.productId);
+    basket.items[foundItemIndex].quantity++;
+    this.setbasket(basket);
+  }
+
+  removeItemFromBasket(item:IBasketItem){
+    const basket = this.getcurrentBasket();
+    if(!basket) return;
+
+    if(basket.items.some((x) => x.productId == item.productId)){
+      basket.items =  basket.items.filter((x) => x.productId !== item.productId)
+      if(basket.items.length > 0){
+        this.setbasket(basket);
+      }
+      else{
+        this.deleteBasket(basket.userName);
+      }
+    }
+  }
+
+  deleteBasket(userName: string) {
+      return this.http.delete(this.baseurl + '/Basket/DeleteBasket/' + userName).subscribe({
+      next:(response) =>{
+        this.basketSource.next(null);
+        this.basketTotal.next(null);
+        localStorage.removeItem('basket_username');
+      }, error: (err)=>{
+        console.log('Error Occurred while deletin basket');
+        console.log(err);
+      }
+    })
+  }
+
+  decreamentItemQuantity(item:IBasketItem){
+     const basket = this.getcurrentBasket();
+    if(!basket) return;
+
+    const foundItemIndex = basket.items.findIndex((x) => x.productId === item.productId);
+    if(basket.items[foundItemIndex].quantity > 1){
+      basket.items[foundItemIndex].quantity--;
+    }
+    this.setbasket(basket);
+
+  }
+
   private addOrUpdateItem(items: IBasketItem[], itemToAdd: IBasketItem, quantity: number): IBasketItem[] {
     const item = items.find(x => x.productId === itemToAdd.productId);
     if (item) {

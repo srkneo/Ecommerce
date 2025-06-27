@@ -10,10 +10,11 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(req).pipe(
      catchError((error) => {              
+      const isApiUrl = req.url.includes('/Basket') || req.url.includes('/api');
         if (error.status === 401 || error.status === 403) {
           // Redirect to login page or show an error message
           this.router.navigate(['/un-authenticated']);
-        } else if (error.status === 404) {
+        } else if (error.status === 404 && !isApiUrl) {
           // Redirect to not found page
           this.router.navigate(['/not-found']);
         } else if (error.status === 500) {
