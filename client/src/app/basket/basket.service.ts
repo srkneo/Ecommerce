@@ -22,6 +22,7 @@ export class BasketService {
     return this.http.get<IBasket>(this.baseurl + '/Basket/GetBasket/mahesh').subscribe({
       next: (basket) => {
         this.basketSource.next(basket);
+        this.calculateBasketTotal();
       },
       error: (error) => {
         console.error('Error fetching basket:', error);
@@ -33,6 +34,7 @@ export class BasketService {
     return this.http.post<IBasket>(this.baseurl + '/Basket/CreateBasket', basket).subscribe({
       next: (basket) => { 
         this.basketSource.next(basket);
+        this.calculateBasketTotal();
       }
     });
   }
@@ -73,6 +75,13 @@ export class BasketService {
       quantity: 0,
       imageFile: item.imageFile,
     };
+  }
+
+  private calculateBasketTotal(){
+    const basket = this.getcurrentBasket();
+
+    const total = basket?.items.reduce((x, y) => (y.price * y.quantity) + x, 0) ?? 0;
+    this.basketTotal.next({ total });
   }
 
 }
