@@ -7,9 +7,9 @@ import { IProduct } from '../shared/models/product';
 @Injectable({
   providedIn: 'root'
 })
-export class BasketServiceService {
+export class BasketService {
 
-  baseurl = 'https://localhost:9010';
+  baseurl = 'http://localhost:8010';
 
   constructor(private http: HttpClient) { }
   private basketSource = new BehaviorSubject<Basket | null>(null);
