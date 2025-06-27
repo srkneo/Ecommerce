@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Basket, IBasket, IBasketItem } from '../shared/models/basket';
+import { Basket, IBasket, IBasketItem, IBasketTotal } from '../shared/models/basket';
 import { IProduct } from '../shared/models/product';
 
 @Injectable({
@@ -14,6 +14,9 @@ export class BasketService {
   constructor(private http: HttpClient) { }
   private basketSource = new BehaviorSubject<Basket | null>(null);
   baseketSource$ = this.basketSource.asObservable();
+
+  private basketTotal = new BehaviorSubject<IBasketTotal | null>(null);
+  basketTotal$ = this.basketTotal.asObservable();
 
   getBasket(username: string) {
     return this.http.get<IBasket>(this.baseurl + '/Basket/GetBasket/mahesh').subscribe({
@@ -71,4 +74,5 @@ export class BasketService {
       imageFile: item.imageFile,
     };
   }
+
 }
